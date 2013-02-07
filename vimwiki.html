@@ -1,0 +1,337 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>vimviki教程 </title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="小新的维基世界,涉及vim,vimwiki,linux,archlinux,debian,ubuntu,embedded等.">
+<meta name="keywords" content="西电小新,Tiny,tinyxd,Keen on Art of Tech,octopress,嵌入式,Embedded,linux,software,archlinux,debian,ubuntu">
+<link rel="Stylesheet" type="text/css" href="style.css" />
+<script>var root_path = '';</script>
+<link href="http://github.com/tinywiki/tinywiki.github.com/commits/master.atom" rel="alternate" title="Tiny Wiki 的最新更改" type="application/atom+xml" /> 
+</head>
+<body>
+<div id="all">
+<div id="header">
+	<ul id="top-nav">
+		<li>
+			<a href="index.html">首页</a>
+		</li>
+		<li>
+			<a href="tips/index.html">经验总结</a>
+		</li>
+		<li>
+			<a href="diary/diary.html">日记</a>
+		</li>
+	</ul>
+</div>
+<div id="cse"></div>
+<div id="main">
+
+<h1 id="toc_1" class="justcenter">vimwiki教程</h1>
+<div class="toc">
+<ul>
+<li><a href="#toc_1">vimwiki教程</a>
+<ul>
+<li><a href="#toc_1.1">什么是vimwiki</a>
+<li><a href="#toc_1.2">vimwiki安装</a>
+<li><a href="#toc_1.3">常用快捷键</a>
+<li><a href="#toc_1.4">常用命令</a>
+<li><a href="#toc_1.5">wiki语法</a>
+<li><a href="#toc_1.6">代码折叠/大纲</a>
+<li><a href="#toc_1.7">占位符</a>
+<li><a href="#toc_1.8">待办事项列表</a>
+</ul>
+</ul>
+</div>
+<h2 id="toc_1.1">什么是vimwiki</h2>
+<p>
+Vimwiki 是用vim来搭建的个人wiki。
+<br>
+特性：
+</p>
+<ul>
+<li>
+组织想法和日记
+
+<li>
+管理待办事项列表
+
+<li>
+写文档
+
+</ul>
+<p>
+<br>
+按\ww打开wiki主页，默认位置为<code>~/vimwiki/index.wiki</code>。
+</p>
+<h2 id="toc_1.2">vimwiki安装</h2>
+<p>
+<code>.vimrc</code>中需有如下设置：
+</p>
+<pre>
+	set nocompatible
+	filetype plugin on
+	syntax on
+</pre>
+<p>
+<br>
+本文的<code>.vimrc设置</code>：
+<br>
+</p>
+<pre>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Owner:	Tiny - http://www.tinyxd.me
+" Modified: 2013-01-24 22:11:09
+
+" set runtimepath=~/vim,$VIMRUNTIME
+" source ~/vim/vimrc
+
+" Get out of VI's compatible mode..
+
+"""""""""""""""""""""""""""""""""""""""
+"vimwiki设置
+"""""""""""""""""""""""""""""""""""""""
+" 打开语法高亮
+syntax enable
+syntax on
+
+" 打开对文件类型插件的支持
+filetype indent on
+filetype plugin on
+filetype plugin indent on
+
+" 去掉有关vi的一致性模式，避免以前版本的一些bug和局限
+set nocompatible
+
+" ######### VimWiki 写作助手 ######### "
+
+" 使用鼠标映射
+let g:vimwiki_use_mouse = 1
+
+" 不要将驼峰式词组作为 Wiki 词条
+let g:vimwiki_camel_case = 0
+
+let g:vimwiki_list = [{
+\ 'path': '/media/software/Dropbox/my_vimwiki_site/wiki',
+   \ 'template_path': '~/.vim/autoload/vimwiki/',
+    \ 'template_default': 'default',
+    \ 'template_ext': '.tpl', 
+\ 'path_html': '/media/software/Dropbox/my_vimwiki_site/html/',
+\ 'auto_export': 1,},
+\{
+\'path': '/media/software/Dropbox/my_index_site/wiki',
+   \ 'template_path': '~/.vim/autoload/vimwiki/',
+    \ 'template_default': 'myindex',
+    \ 'template_ext': '.tpl',
+\ 'path_html': '/media/software/Dropbox/my_index_site/html/',
+\ 'auto_export': 1,}] 
+
+
+</pre>
+<h2 id="toc_1.3">常用快捷键</h2>
+<ul>
+<li>
+<code>[count]&lt;Leader&gt;ww</code> 在当前窗口打开第[count]个wiki首页
+
+<li>
+<code>[count]&lt;Leader&gt;wt</code> 在新标签页中打开第[count]个wiki索引文件
+
+<li>
+<code>&lt;Leader&gt;ws</code> 列出可选择的wiki列表
+
+<li>
+<code>[count]&lt;Leader&gt;w&lt;Leader&gt;w</code> 打开今天第[count]个wiki日记
+
+<li>
+<code>[count]&lt;Leader&gt;w&lt;Leader&gt;t</code> 在新标签页打开今天第[count]个wiki日记
+
+<li>
+<code>[count]&lt;Leader&gt;wi</code> 打开日记的首页
+
+<li>
+<code>&lt;Leader&gt;wh</code> 把当前wiki页面生成HTML--对应命令<code>Vimwiki2HTML</code>
+
+<li>
+<code>&lt;Leader&gt;whh</code> 把当前wiki页面转换为HTML并用浏览器打开
+
+<li>
+<code>&lt;Leader&gt;w&lt;Leader&gt;i</code> 更新diary主页（用于写完新的日志后，更新diary主页）
+
+<li>
+<code>&lt;Leader&gt;wd</code> 删除当前wiki页
+
+<li>
+<code>&lt;Leader&gt;wr</code> 重命名当前wiki页面
+
+</ul>
+<h2 id="toc_1.4">常用命令</h2>
+<ul>
+<li>
+<code>:Vimwiki2HTML</code> 将当前页面转为HTML
+
+<li>
+<code>:VimwikiAll2HTML</code> 将所有wiki页面转化为HTML
+
+<li>
+<code>:VimwikiSearch /pattern/</code> 在当前wiki中搜索<code>/parttern/</code>:<code>:lopen</code>显示所有匹配，<code>:lnext</code>显示下一个匹配，<code>:lprevious</code>显示上一个匹配
+
+<li>
+<code>:VimwikiTable</code> 创建表格:<code>:VimwikiTable cols rows</code>创建cols行rows列的表格
+
+</ul>
+<h2 id="toc_1.5">wiki语法</h2>
+<ul>
+<li>
+文本字型
+
+<ul>
+<li>
+<code>*粗体*</code>:<strong>粗体</strong>
+
+<li>
+<code>_斜体_</code>:<em>斜体</em>
+
+<li>
+<code>~~删除线~~</code>:<del>删除线</del>
+
+<li>
+<code>代码（无语法）</code>:<code>无语法代码</code>
+
+<li>
+<code>上标^脚本^</code>:上标<sup><small>脚本</small></sup>
+
+<li>
+<code>下表,,脚本,,</code>:下标<sub><small>脚本</small></sub>
+
+</ul>
+<li>
+链接
+
+<ul>
+<li>
+<code>[[链接]]</code>:<a href="链接.html">链接</a>
+
+<li>
+<code>[[链接|链接描述]]</code>或者<code>[[链接源地址][链接描述]]</code>:<a href="http://www.tinyxd.me">个人导航</a>
+
+<li>
+纯链接：<a href="http://blog.tinyxd.me">http://blog.tinyxd.me</a>
+
+</ul>
+<li>
+标题
+
+<ul>
+<li>
+<code>= 1级标题 =</code>
+
+<li>
+<code>== 2级标题 ==</code>
+
+</ul>
+<li>
+段落
+
+</ul>
+<p>
+段落间以一个空行分割。
+</p>
+<ul>
+<li>
+列表
+<pre 无序列表：&gt;>
+
+* 符号列表1
+* 符号列表2
+* 符号列表3
+  * 符号列表
+  * 符号列表
+    - 符号列表
+    - 符号列表
+      # 符号列表
+      # 符号列表   
+        列表第一行
+        列表第二行
+      # 符号列表
+</pre>
+
+<li>
+表格
+<pre>
+| 年   | 最低温度 | 最高温度 |
+|------|----------|----------|
+| 2001 | 10       | 20       |
+| 2002 | 20       | 30       |
+</pre>
+
+</ul>
+<p>
+效果如下：
+</p>
+<ul>
+<li>
+预格式化文本
+<table>
+<tr>
+<th>
+年
+</th>
+<th>
+最低温度
+</th>
+<th>
+最高温度
+</th>
+</tr>
+<tr>
+<td>
+2001
+</td>
+<td>
+10
+</td>
+<td>
+20
+</td>
+</tr>
+<tr>
+<td>
+2002
+</td>
+<td>
+20
+</td>
+<td>
+30
+</td>
+</tr>
+</table>
+
+</ul>
+
+<ul>
+<li>
+块级引用
+
+<li>
+注释
+
+</ul>
+<h2 id="toc_1.6">代码折叠/大纲</h2>
+<h2 id="toc_1.7">占位符</h2>
+<h2 id="toc_1.8">待办事项列表</h2>
+
+<p>
+To Be Continued!!!
+</p>
+
+</div>
+<div id="footer">
+    <p>&copy; 2013 小新 &nbsp;&nbsp; <a href="SiteMap.html" title="站点地图">站点地图</a>&nbsp;&nbsp; <script src="http://s21.cnzz.com/stat.php?id=4965378&web_id=4965378" language="JavaScript"></script>
+</p>
+</div>
+</div>
+<script src="jquery-1.4.2.min.js" type="text/javascript"></script>
+<script src="vimwiki.js" type="text/javascript"></script>
+</body>
+</html>
